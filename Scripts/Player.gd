@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 var movespeed = 500
 
-var byte_scene = preload("res://Byte.tscn")
+var byte_scene = preload("res://Scenes/Byte.tscn")
 var byte_distance = 125
 
 func _ready():
