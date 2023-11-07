@@ -6,6 +6,10 @@ var movespeed = 500
 var byte_scene = preload("res://Scenes/Byte.tscn")
 var byte_distance = 125
 
+var attack_enabled = false
+var attack_direction = Vector2(0, 0)  # The initial direction of the attack
+var attack_range = 60
+
 func _ready():
 	pass # Replace with function body.
 func _physics_process(delta):
@@ -22,7 +26,22 @@ func _physics_process(delta):
 	motion = motion.normalized()
 	motion = move_and_slide(motion*movespeed)
 	look_at(get_global_mouse_position())
+	
+	if attack_enabled:
+		$AttackHitbox.global_position = global_position + attack_direction * attack_range
+		$AttackHitbox.rotation = attack_direction.angle()  # Rotate the hitbox to face the attack direction
+		$AttackSprite.visible = true
+	else:
+		$AttackHitbox.global_position = Vector2(-10000, -10000)  # Move the hitbox off-screen when not attacking
+		$AttackSprite.visible = false
+		
 func _input(event):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+		if event.pressed:
+			attack_enabled = true
+			attack_direction = global_position.direction_to(get_global_mouse_position())
+		else:
+			attack_enabled = false
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.pressed:
 		create_byte(event.global_position)
 func create_byte(mouse_position):

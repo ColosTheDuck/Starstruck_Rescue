@@ -1,21 +1,35 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character_sprites/Emily_00.png" type="Texture" id=2]
+[ext_resource path="res://Character_sprites/Player_Attack.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 55.5094, 61.0779 )
 
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 29.0975
+height = 120.65
+
 [node name="World" type="Node2D"]
 
 [node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 500.604, 289.552 )
+position = Vector2( 497.607, 294.047 )
 script = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2( -3.70813, 82.2394 )
+[node name="Hitbox" type="CollisionShape2D" parent="Player"]
+position = Vector2( -3.70813, 94.2259 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Player"]
-position = Vector2( -0.208179, 6.95234 )
+position = Vector2( 1.86736, 11.4473 )
 texture = ExtResource( 2 )
+
+[node name="AttackSprite" type="Sprite" parent="Player"]
+position = Vector2( 65.0352, 20.2423 )
+scale = Vector2( 0.754184, 0.970736 )
+texture = ExtResource( 3 )
+
+[node name="AttackHitbox" type="CollisionShape2D" parent="Player"]
+position = Vector2( 118.225, 23.2388 )
+shape = SubResource( 2 )
