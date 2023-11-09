@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-
+export var strength = 200
 var movespeed = 500
 
 var byte_scene = preload("res://Scenes/Byte.tscn")
@@ -30,10 +30,12 @@ func _physics_process(delta):
 	if attack_enabled:
 		$AttackHitbox.global_position = global_position + attack_direction * attack_range
 		$AttackHitbox.rotation = attack_direction.angle()  # Rotate the hitbox to face the attack direction
-		$AttackSprite.visible = true
+		$Melee_Attack.animation = "melee_attack"
+		$Melee_Attack.global_position = global_position + attack_direction * attack_range
+		emit_signal("melee_interact")
 	else:
+		$AttackHitbox.disabled = true
 		$AttackHitbox.global_position = Vector2(-10000, -10000)  # Move the hitbox off-screen when not attacking
-		$AttackSprite.visible = false
 		
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
@@ -49,3 +51,11 @@ func create_byte(mouse_position):
 	var spawn_offset = (mouse_position - global_position).normalized() * byte_distance
 	byte.position = global_position + spawn_offset
 	get_parent().add_child(byte)
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	pass # Replace with function body.
+
+
+func _on_Melee_Attack_animation_finished():
+	$Melee_Attack.animation = "idle"

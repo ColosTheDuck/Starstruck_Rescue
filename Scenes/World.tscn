@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character_sprites/Emily_00.png" type="Texture" id=2]
@@ -10,6 +10,19 @@ extents = Vector2( 55.5094, 61.0779 )
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 29.0975
 height = 120.65
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [  ],
+"loop": false,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), null ],
+"loop": false,
+"name": "melee_attack",
+"speed": 2.0
+} ]
 
 [node name="World" type="Node2D"]
 
@@ -25,11 +38,17 @@ shape = SubResource( 1 )
 position = Vector2( 1.86736, 11.4473 )
 texture = ExtResource( 2 )
 
-[node name="AttackSprite" type="Sprite" parent="Player"]
-position = Vector2( 65.0352, 20.2423 )
-scale = Vector2( 0.754184, 0.970736 )
-texture = ExtResource( 3 )
-
-[node name="AttackHitbox" type="CollisionShape2D" parent="Player"]
+[node name="AttackHitbox" type="CollisionShape2D" parent="Player" groups=[
+"Melee_interact",
+]]
 position = Vector2( 118.225, 23.2388 )
 shape = SubResource( 2 )
+
+[node name="Melee_Attack" type="AnimatedSprite" parent="Player"]
+position = Vector2( 56.1866, 18.7289 )
+scale = Vector2( 0.836123, 0.93562 )
+frames = SubResource( 3 )
+animation = "idle"
+frame = -1
+playing = true
+[connection signal="animation_finished" from="Player/Melee_Attack" to="Player" method="_on_Melee_Attack_animation_finished"]
